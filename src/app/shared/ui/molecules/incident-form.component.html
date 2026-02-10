@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+    <input type="text" placeholder="Title" formControlName="title" />
+
+    <textarea placeholder="Description" formControlName="description">
+  </textarea>
+
+    <input type="text" placeholder="Service" formControlName="service" />
+
+    <select formControlName="status">
+        <option value="open">Open</option>
+        <option value="in_progress">In Progress</option>
+        <option value="resolved">Resolved</option>
+    </select>
+
+    <select formControlName="severity">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+        <option value="critical">Critical</option>
+    </select>
+
+    <input type="text" placeholder="Assigned to" formControlName="assignedTo" />
+
+    <button type="submit">
+        {{ incident ? 'Update Incident' : 'Create Incident' }}
+    </button>
+
+</form>

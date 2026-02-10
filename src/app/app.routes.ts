@@ -20,24 +20,27 @@ export const routes: Routes = [
                     import('./features/dashboard/dashboard.routes')
                         .then(m => m.DASHBOARD_ROUTES),
             },
+            {
+                path: 'incidents',
+                loadChildren: () =>
+                    import('./features/incidents/incidents.routes')
+                        .then(m => m.INCIDENTS_ROUTES),
+            },
+            {
+                path: 'audit',
+                loadChildren: () =>
+                    import('./features/audit/audit.routes')
+                        .then(m => m.AUDIT_ROUTES),
+            },
+            {
+                path: '',
+                redirectTo: 'dashboard',
+                pathMatch: 'full',
+            },
         ],
     },
     {
         path: '**',
         redirectTo: 'dashboard',
     },
-    {
-        path: 'incidents',
-        loadChildren: () =>
-            import('./features/incidents/incidents.routes')
-                .then(m => m.INCIDENTS_ROUTES),
-    },
-    {
-        path: 'audit',
-        loadChildren: () =>
-            import('./features/audit/audit.routes')
-                .then(m => m.AUDIT_ROUTES),
-    },
-
-
 ];
