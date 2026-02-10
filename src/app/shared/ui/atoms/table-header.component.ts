@@ -7,6 +7,8 @@ import { Component, Input } from '@angular/core';
     <th>{{ label }}</th>
   `,
 })
+
 export class TableHeaderComponent {
     @Input({ required: true }) label!: string;
 }
+
