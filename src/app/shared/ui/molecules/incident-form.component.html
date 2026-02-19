@@ -1,29 +1,41 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
 
-    <input type="text" placeholder="Title" formControlName="title" />
+  <label>
+    Title
+    <input type="text" formControlName="title" />
+  </label>
 
-    <textarea placeholder="Description" formControlName="description">
-  </textarea>
+  <label>
+    Description
+    <textarea formControlName="description"></textarea>
+  </label>
 
-    <input type="text" placeholder="Service" formControlName="service" />
+  <label>
+    Service
+    <input type="text" formControlName="service" />
+  </label>
 
+  <label>
+    Status
     <select formControlName="status">
-        <option value="open">Open</option>
-        <option value="in_progress">In Progress</option>
-        <option value="resolved">Resolved</option>
+      <option value="open">Open</option>
+      <option value="in_progress">In Progress</option>
+      <option value="resolved">Resolved</option>
     </select>
+  </label>
 
+  <label>
+    Severity
     <select formControlName="severity">
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-        <option value="critical">Critical</option>
+      <option value="low">Low</option>
+      <option value="medium">Medium</option>
+      <option value="high">High</option>
+      <option value="critical">Critical</option>
     </select>
+  </label>
 
-    <input type="text" placeholder="Assigned to" formControlName="assignedTo" />
-
-    <button type="submit">
-        {{ incident ? 'Update Incident' : 'Create Incident' }}
-    </button>
+  <button type="submit" [disabled]="form.invalid">
+    {{ incident ? 'Update Incident' : 'Create Incident' }}
+  </button>
 
 </form>

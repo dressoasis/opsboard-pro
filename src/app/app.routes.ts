@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { ShellComponent } from './layouts/shell/shell.component';
 import { authGuard } from './core/guards/auth.guard';
+import { AuthFacade } from './features/auth/auth.fecade';
+import { AuthStore } from './features/auth/auth.store';
 
 export const routes: Routes = [
     {
@@ -12,6 +14,7 @@ export const routes: Routes = [
     {
         path: '',
         component: ShellComponent,
+        providers: [AuthFacade, AuthStore],
         canActivate: [authGuard],
         children: [
             {

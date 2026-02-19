@@ -3,6 +3,8 @@ import { IncidentsStore, IncidentFilters } from './store/incidents.store';
 import { Incident } from './models/incident.model';
 import { AuditService } from '../../core/logging/audit.service';
 
+const STORAGE_KEY = 'incidents';
+
 @Injectable()
 export class IncidentsFacade {
 
@@ -10,11 +12,21 @@ export class IncidentsFacade {
     private readonly store = inject(IncidentsStore);
     private readonly audit = inject(AuditService);
 
-    // 🔹 Exposición de datos (readonly)
+    // 🔹 Exposición reactiva
     readonly incidents = this.store.filteredIncidents;
 
-    // 🔹 Carga inicial (mock / futura API)
+    // 🔹 Carga inicial (localStorage → fallback mock)
     loadIncidents(): void {
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (saved) {
+            const parsed: Incident[] = JSON.parse(saved);
+            this.store.setIncidents(parsed);
+            this.audit.log('LOAD_STORAGE', 'INCIDENT');
+            return;
+        }
+
+        // 🔹 Mock inicial si no hay datos
         const mock: Incident[] = [
             {
                 id: '1',
@@ -39,7 +51,8 @@ export class IncidentsFacade {
         ];
 
         this.store.setIncidents(mock);
-        this.audit.log('LOAD', 'INCIDENT');
+        this.persist(mock);
+        this.audit.log('LOAD_MOCK', 'INCIDENT');
     }
 
     // 🔹 Filtros
@@ -58,6 +71,7 @@ export class IncidentsFacade {
         };
 
         this.store.addIncident(incident);
+        this.persist(this.store.getAll());
         this.audit.log('CREATE', 'INCIDENT', incident);
     }
 
@@ -69,6 +83,19 @@ export class IncidentsFacade {
         };
 
         this.store.updateIncident(incident);
+        this.persist(this.store.getAll());
         this.audit.log('UPDATE', 'INCIDENT', incident);
+    }
+
+    // 🔹 Eliminar incidente (ya que estamos completando todo)
+    deleteIncident(id: string): void {
+        this.store.deleteIncident(id);
+        this.persist(this.store.getAll());
+        this.audit.log('DELETE', 'INCIDENT', { id });
+    }
+
+    // 🔹 Persistencia privada
+    private persist(data: Incident[]): void {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 }
