@@ -1,25 +1,26 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../core/auth/auth.service';
+import { NgIf } from '@angular/common';
+import { AuthFacade } from '../../features/auth/auth.facade';
 
 @Component({
-    standalone: true,
-    selector: 'app-sidenav',
-    imports: [RouterLink],
-    template: `
+  standalone: true,
+  selector: 'app-sidenav',
+  imports: [RouterLink, NgIf],
+  template: `
     <aside class="sidenav">
       <a routerLink="/dashboard">Dashboard</a>
       <a routerLink="/incidents">Incidents</a>
 
       <a
-        *ngIf="auth.hasRole('admin')"
+        *ngIf="auth.isAdmin()"
         routerLink="/audit"
       >
         Audit
       </a>
     </aside>
   `,
-    styles: [`
+  styles: [`
     .sidenav {
       width: 200px;
       background: #0f172a;
@@ -35,5 +36,5 @@ import { AuthService } from '../../core/auth/auth.service';
   `],
 })
 export class SidenavComponent {
-    auth = inject(AuthService);
+  auth = inject(AuthFacade);
 }

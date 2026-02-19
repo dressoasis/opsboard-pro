@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { AuthStore } from './auth.store';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthFacade {
 
     private readonly store = inject(AuthStore);
@@ -19,6 +19,10 @@ export class AuthFacade {
 
     isAdmin(): boolean {
         return this.store.isAdmin();
+    }
+
+    isAuthenticated(): boolean {
+        return !!this.currentUser();
     }
 
 }

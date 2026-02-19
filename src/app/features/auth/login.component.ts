@@ -1,28 +1,32 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/auth/auth.service';
+import { AuthFacade } from './auth.facade';
 
 @Component({
-    standalone: true,
-    template: `
+  standalone: true,
+  template: `
     <h2>Login</h2>
 
-    <input #email placeholder="email" />
+    <input #username placeholder="username" />
     <input #password type="password" placeholder="password" />
 
-    <button (click)="login(email.value, password.value)">
+    <button (click)="login(username.value, password.value)">
       Login
     </button>
   `,
 })
 export class LoginComponent {
-    constructor(
-        private auth: AuthService,
-        private router: Router
-    ) { }
+  constructor(
+    private auth: AuthFacade,
+    private router: Router
+  ) { }
 
-    login(email: string, password: string) {
-        this.auth.login(email, password);
-        this.router.navigate(['/dashboard']);
+  login(username: string, password: string) {
+    const success = this.auth.login(username, password);
+    if (success) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      alert('Login failed');
     }
+  }
 }

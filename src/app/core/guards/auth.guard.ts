@@ -1,9 +1,9 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
+import { AuthFacade } from '../../features/auth/auth.facade';
 
 export const authGuard: CanActivateFn = (route, state) => {
-    const auth = inject(AuthService);
+    const auth = inject(AuthFacade);
     const router = inject(Router);
 
     if (!auth.isAuthenticated()) {

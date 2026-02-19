@@ -5,12 +5,12 @@ import { IncidentsFacade } from './incidents.facade';
 import { IncidentsStore } from './store/incidents.store';
 import { IncidentsTableComponent } from '../../shared/ui/molecules/incidents-table.component';
 import { Router } from '@angular/router';
-import { AuthFacade } from '../auth/auth.fecade';
+import { AuthFacade } from '../auth/auth.facade';
 
 @Component({
   standalone: true,
   imports: [IncidentsTableComponent, RouterLink, NgIf],
-  providers: [IncidentsFacade, IncidentsStore, AuthFacade],
+  providers: [IncidentsFacade, IncidentsStore],
   template: `
     <h1>Incidents</h1>
 

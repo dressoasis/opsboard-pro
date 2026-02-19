@@ -1,20 +1,22 @@
 import { Component, inject } from '@angular/core';
-import { AuthService } from '../../core/auth/auth.service';
+import { NgIf } from '@angular/common';
+import { AuthFacade } from '../../features/auth/auth.facade';
 
 @Component({
-    standalone: true,
-    selector: 'app-topbar',
-    template: `
+  standalone: true,
+  selector: 'app-topbar',
+  imports: [NgIf],
+  template: `
     <header class="topbar">
       <strong>OpsBoard Pro</strong>
 
-      <div class="user">
-        {{ auth.user()?.email }}
+      <div class="user" *ngIf="auth.currentUser() as user">
+        {{ user.username }}
         <button (click)="auth.logout()">Logout</button>
       </div>
     </header>
   `,
-    styles: [`
+  styles: [`
     .topbar {
       display: flex;
       justify-content: space-between;
@@ -28,5 +30,5 @@ import { AuthService } from '../../core/auth/auth.service';
   `],
 })
 export class TopbarComponent {
-    auth = inject(AuthService);
+  auth = inject(AuthFacade);
 }
